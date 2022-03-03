@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!-- 
+	把列表项换成图片，并给图片加上超链接，实现点击图片能跳转网页的效果
+ -->
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+		.wrap{
+			width: 590px;
+			height: 470px;
+			position: relative;
+		}
+		/* 无序列表的样式 padding-left:设置一个元素的左部填充 */
+		.list{
+			position: relative;
+			padding-left: 0px;
+			list-style: none;
+			width: 590px;
+			height: 470px;
+		}
+		/* 列表项的样式，列表项代表每一张图片 */
+		.item{
+			position: absolute;
+			opacity: 0;
+			transition: opacity .8s;
+			width: 100%;
+			height: 100%;
+			color:white;
+			font-size: 50px;
+			
+		}
+		/* 在图片跳转时设置列表项的层级和透明度 */
+		.item.active{
+			z-index: 10;
+			opacity:1;
+			
+		}
+		
+		/* :nth-child(n)表示属于item父元素的第二个子元素的所有 item 元素*/
+		.item:nth-child(1){
+			background-color: red;
+		}
+		/* 找到第二个item元素 */
+		.item:nth-child(2){
+			background-color: yellow;
+		}
+		/* 找到第三个item元素 */
+		.item:nth-child(3){
+			background-color: green;
+		}
+		/* 找到第四个item元素 */
+		.item:nth-child(4){
+			background-color: blue;
+		}
+		/* 找到第五个item元素 */
+		.item:nth-child(5){
+			background-color: pink;
+		}
+		.btn{
+			position: absolute;
+			top:210px;
+			width: 50px;
+			height: 50px;
+			z-index: 100;
+			border-radius: 100%;
+			border-style:solid;
+			border-width: 2px;
+		}
+		.btn:hover{
+				background-color: rgba(255,255,255,0.4);
+		}
+		.pointList{
+			list-style: none;
+			padding-left: 0px;
+			position: absolute;/*相对于div容器的绝对位置*/
+			right:20px;
+			bottom: 20px;
+			z-index: 1000;
+		}
+		.point{
+			float: left;/*漂浮*/
+			width:8px;
+			height:8px;
+			background-color: rgba(0,0,0,0.4);/*背景颜色黑色*/
+			margin-right: 16px;
+			border-style: solid;
+			border-radius: 100%;/*圆形的边框*/
+			borde-width:2px;
+			border-color: rgba(255,255,255,0.6);/*边框的白色*/
+			cursor: pointer;/*改变鼠标箭头为小手*/
+		}
+		.point.active{
+			background-color: rgba(255,255,255,0.6);
+		}
+		/* 把图像的左边缘设置在其包含元素左边缘向右0像素的位置： */
+		#goPre{
+			left:0px;
+		}
+		/* 把图像的右边缘设置在其包含元素右边缘向左0像素的位置： */
+		#goNext{
+			right:0px;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<ul class="list">
+				<a  class="item active" href="https://pro.jd.com/mall/active/4AfQf3FkPRGHhtqqKh9tsWyV97sy/index.html?innerAnchor=100023781630&focus=4"><img src="./img/q.jpg"></a>
+				<a  class="item" href="https://pro.jd.com/mall/active/3uQmoZwycRCamuwFqgosMZNRQ92C/index.html?innerAnchor=12867012&focus=4"><img src="./img/q-1.jpg"></a>
+				<a  class="item" href="https://mall.jd.com/index-1000105938.html?imup=CgYKABIAGAASFwi85srG9AIQ0s_x3AMaA3JnZSDSBSgBGLAbIAAqJm1peHRhZ19pLHViLHhnZyxnaWEsY2ljLGZfYmFfZmxfbDE2MzM2MghtaXh0YWdfaUrDAUl8TUlYVEFHX0lSLElfQV9GTF9VMTM5MzMsSV9BX1JFX1UxMzkzMyxJX0FfUExfUixJX0FfU0xfUixJX0FfQ1NfTEMsSV9BX1JTX1IsSV9VX0ZMX1IsSV9TX0ZMX1IsSV9SX0ZMX1IsSV9QX0ZMX1IsSV9HX1hHX1IsSV9HX1JMX0xDLElfQl9GTF9SLEdJQSxYR0csVUF8RypJX1VfRkxfTDE3NDk4O0Z8TUlYVEFHX0ZSLEZfQkFfRkxfTDE2MzM2fA&extension_id=eyJhZCI6IjM1MDQiLCJjaCI6IjIiLCJza3UiOiIxMDAwMDYwMTU4MDQiLCJ0cyI6IjE2NDU3ODkwNTYiLCJ1bmlxaWQiOiJ7XCJjbGlja19pZFwiOlwiYjRhNjU3M2YtODYwMi00NjQ2LTg1ZWQtMTM3MWRiODYwNDQwXCIsXCJtYXRlcmlhbF9pZFwiOlwiOTE3MjIwMzc3ODYzODgxNTE2M1wiLFwicG9zX2lkXCI6XCIzNTA0XCIsXCJzaWRcIjpcIjAzZTY4MDc5LTI2MGMtNDExNC1hMWNiLWRmNjk1ODFmMTAzOFwifSJ9&jd_pop=b4a6573f-8602-4646-85ed-1371db860440&abt=0"><img src="./img/q-2.jpg"></a>
+				<a  class="item" href="https://pro.jd.com/mall/active/3dJz8Jw833BZC9XYQqGQWyWrdKmp/index.html?innerAnchor=6555441&focus=4"><img src="./img/q-3.jpg"></a>
+				<a  class="item" href="https://pro.jd.com/mall/active/4JjMcoG3vbqwWNKsURisPifdZEEH/index.html?extension_id=eyJhZCI6IjM1MDMiLCJjaCI6IjIiLCJzaG9wIjoiMTEzNzc1IiwidHMiOiIxNjQ1Nzg5NTEwIiwidW5pcWlkIjoie1wiY2xpY2tfaWRcIjpcIjNlNzdjYzg3LTA1M2MtNDFkYS1iOTc1LTI0NjA2ZTVmZWI4NVwiLFwibWF0ZXJpYWxfaWRcIjpcIjU5ODY4NTE1MjFcIixcInBvc19pZFwiOlwiMzUwM1wiLFwic2lkXCI6XCI5N2EwYmNmZi1kNWU1LTQ3M2UtODZlMi1hNTE3Y2I3MGExZWJcIn0ifQ==&jd_pop=3e77cc87-053c-41da-b975-24606e5feb85&abt=1"><img src="./img/q-4.png"></a>
+			</ul>
+			<ul class="pointList">
+				<li class="point active" data-index=0></li>
+				<li class="point" data-index=1></li>
+				<li class="point" data-index=2></li>
+				<li class="point" data-index=3></li>
+				<li class="point" data-index=4></li>
+			</ul>
+			<button class="btn" id="goPre"><</button>
+			<button class="btn" id="goNext">></button>
+			
+		</div>
+	<script>
+		//获取dom对象
+		var items=document.getElementsByClassName("item");//图片
+		var points=document.getElementsByClassName("point");//圆点
+		var btns=document.getElementsByClassName("btn");//按钮
+		var goPreBtn=document.getElementById("goPre");
+		var goNextBtn=document.getElementById("goNext");
+		var index=0;
+		//给指定的图片加上层级--》第index张图片有active这个类名
+		var goIndex=function(){
+			//在添加层级之前需要清空上一次轮播的效果
+			clearActive();
+			items[index].className="item active";
+			points[index].className="point active"	
+			
+		}
+		var clearActive=function(){
+			//清除图片
+			for (var i = 0; i < items.length; i++) {
+				items[i].className="item";
+			}
+			//清除圆点
+			for (var i = 0; i < points.length; i++) {
+				points[i].className="point"
+			}
+			//清楚按钮
+			for (var i = 0; i < btns.length; i++) {
+				btns[i].className="btn";
+			}
+			
+		}
+		goPreBtn.addEventListener('click',function(){
+			if(index==0){
+				index=4;
+			}
+			else{
+				index--;
+			}
+			goIndex(index);
+		})
+		goNextBtn.addEventListener('click',function(){
+			if(index==4){
+				index=0;
+			}else{
+				index++;
+			}
+			
+			goIndex(index);
+		})
+		//给所有的点加上点击事件
+		for (var i = 0; i < points.length; i++) {
+			points[i].addEventListener('click',function(){
+				var x=this.getAttribute("data-index");//获取当前点对应的图片索引
+				//console.log(x);
+				index=x;
+				goIndex();
+			})
+		}
+		
+	</script>
+	</body>
+</html>
+

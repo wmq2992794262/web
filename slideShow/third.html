@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- 给列表项加上层级，层级最大的优先显示，实现轮播效果
+ -->
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+		.wrap{
+			
+			width: 800px;
+			height: 400px;
+			position: relative;
+		}
+		/* 无序列表的样式 padding-left:设置一个元素的左部填充 */
+		.list{
+			position: relative;
+			padding-left: 0px;
+			width: 800px;
+			height: 400px;
+		}
+		/* 列表项的样式，列表项代表每一张图片 */
+		.item{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			font-size: 50px;
+			
+		}
+		.item.active{
+			z-index: 10;
+		}
+		/* :nth-child(n)表示属于item父元素的第二个子元素的所有 item 元素*/
+		.item:nth-child(1){
+			background-color: red;
+		}
+		/* 找到第二个item元素 */
+		.item:nth-child(2){
+			background-color: yellow;
+		}
+		/* 找到第三个item元素 */
+		.item:nth-child(3){
+			background-color: green;
+		}
+		/* 找到第四个item元素 */
+		.item:nth-child(4){
+			background-color: blue;
+		}
+		/* 找到第五个item元素 */
+		.item:nth-child(5){
+			background-color: pink;
+		}
+		.btn{
+			position: absolute;
+			top:150px;
+			width: 50px;
+			height: 100px;
+			z-index: 100;
+			
+		}
+		/* 把图像的左边缘设置在其包含元素左边缘向右0像素的位置： */
+		#goPre{
+			left:0px;
+		}
+		/* 把图像的右边缘设置在其包含元素右边缘向左0像素的位置： */
+		#goNext{
+			right:0px;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<ul class="list">
+				<li class="item">0</li>
+				<li class="item">1</li>
+				<li class="item">2</li>
+				<li class="item">3</li>
+				<li class="item">4</li>
+			</ul>
+			<button class="btn" id="goPre"><</button>
+			<button class="btn" id="goNext">></button>
+		</div>
+	<script>
+		//获取dom对象
+		var items=document.getElementsByClassName("item");
+		var goPreBtn=document.getElementById("goPre");
+		var goNextBtn=document.getElementById("goNext");
+		var index=0;
+		//给指定的图片加上层级--》第index张图片有active这个类名
+		var goIndex=function(){
+			//在添加层级之前需要清空上一次轮播的效果
+			clearActive();
+			items[index].className="item active";
+		}
+		var clearActive=function(){
+			for (var i = 0; i < items.length; i++) {
+				items[i].className="item";
+			}
+		}
+	</script>
+	</body>
+</html>
