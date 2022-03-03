@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<!-- 
+	1.添加下方选择的小圆点,设置原点的样式，并通过绝对定位使小圆点处于合适的位置
+	2.实现圆点会根据点击按钮 进而切换的功能
+	3.实现点击小圆点，切换到对应图片的功能
+		3.1改变鼠标的样式
+		3.2给每一个点挂上点击事件
+		3.3使用data-*属性，在点的标签上记录数据，方便图片的跳转
+		(data-* 属性赋予我们在所有 HTML 元素上嵌入自定义 data 属性的能力)
+	4.修改按钮的样式，并增加交互
+ -->
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+		.wrap{
+			width: 800px;
+			height: 400px;
+			position: relative;
+		}
+		/* 无序列表的样式 padding-left:设置一个元素的左部填充 */
+		.list{
+			position: relative;
+			padding-left: 0px;
+			list-style: none;
+			width: 800px;
+			height: 400px;
+		}
+		/* 列表项的样式，列表项代表每一张图片 */
+		.item{
+			position: absolute;
+			opacity: 0;
+			transition: opacity .8s;
+			width: 100%;
+			height: 100%;
+			color:white;
+			font-size: 50px;
+			
+		}
+		/* 在图片跳转时设置列表项的层级和透明度 */
+		.item.active{
+			z-index: 10;
+			opacity:1;
+			
+		}
+		
+		/* :nth-child(n)表示属于item父元素的第二个子元素的所有 item 元素*/
+		.item:nth-child(1){
+			background-color: red;
+		}
+		/* 找到第二个item元素 */
+		.item:nth-child(2){
+			background-color: yellow;
+		}
+		/* 找到第三个item元素 */
+		.item:nth-child(3){
+			background-color: green;
+		}
+		/* 找到第四个item元素 */
+		.item:nth-child(4){
+			background-color: blue;
+		}
+		/* 找到第五个item元素 */
+		.item:nth-child(5){
+			background-color: pink;
+		}
+		.btn{
+			position: absolute;
+			top:150px;
+			width: 50px;
+			height: 50px;
+			z-index: 100;
+			border-radius: 100%;
+			border-style:solid;
+			border-width: 2px;
+		}
+		.btn:hover{
+				background-color: rgba(255,255,255,0.4);
+		}
+		.pointList{
+			list-style: none;
+			padding-left: 0px;
+			position: absolute;/*相对于div容器的绝对位置*/
+			right:20px;
+			bottom: 20px;
+			z-index: 1000;
+		}
+		.point{
+			float: left;/*漂浮*/
+			width:8px;
+			height:8px;
+			background-color: rgba(0,0,0,0.4);/*背景颜色黑色*/
+			margin-right: 16px;
+			border-style: solid;
+			border-radius: 100%;/*圆形的边框*/
+			borde-width:2px;
+			border-color: rgba(255,255,255,0.6);/*边框的白色*/
+			cursor: pointer;/*改变鼠标箭头为小手*/
+		}
+		.point.active{
+			background-color: rgba(255,255,255,0.6);
+		}
+		/* 把图像的左边缘设置在其包含元素左边缘向右0像素的位置： */
+		#goPre{
+			left:0px;
+		}
+		/* 把图像的右边缘设置在其包含元素右边缘向左0像素的位置： */
+		#goNext{
+			right:0px;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="wrap">
+			<ul class="list">
+				<li class="item active">0</li>
+				<li class="item">1</li>
+				<li class="item">2</li>
+				<li class="item">3</li>
+				<li class="item">4</li>
+			</ul>
+			<ul class="pointList">
+				<li class="point active" data-index=0></li>
+				<li class="point" data-index=1></li>
+				<li class="point" data-index=2></li>
+				<li class="point" data-index=3></li>
+				<li class="point" data-index=4></li>
+			</ul>
+			<button class="btn" id="goPre"><</button>
+			<button class="btn" id="goNext">></button>
+			
+		</div>
+	<script>
+		//获取dom对象
+		var items=document.getElementsByClassName("item");//图片
+		var points=document.getElementsByClassName("point");//圆点
+		var btns=document.getElementsByClassName("btn");//按钮
+		var goPreBtn=document.getElementById("goPre");
+		var goNextBtn=document.getElementById("goNext");
+		var index=0;
+		//给指定的图片加上层级--》第index张图片有active这个类名
+		var goIndex=function(){
+			//在添加层级之前需要清空上一次轮播的效果
+			clearActive();
+			items[index].className="item active";
+			points[index].className="point active"	
+			
+		}
+		var clearActive=function(){
+			//清除图片
+			for (var i = 0; i < items.length; i++) {
+				items[i].className="item";
+			}
+			//清除圆点
+			for (var i = 0; i < points.length; i++) {
+				points[i].className="point"
+			}
+			//清楚按钮
+			for (var i = 0; i < btns.length; i++) {
+				btns[i].className="btn";
+			}
+			
+		}
+		goPreBtn.addEventListener('click',function(){
+			if(index==0){
+				index=4;
+			}
+			else{
+				index--;
+			}
+			goIndex(index);
+		})
+		goNextBtn.addEventListener('click',function(){
+			if(index==4){
+				index=0;
+			}else{
+				index++;
+			}
+			
+			goIndex(index);
+		})
+		//给所有的点加上点击事件
+		for (var i = 0; i < points.length; i++) {
+			points[i].addEventListener('click',function(){
+				var x=this.getAttribute("data-index");//获取当前点对应的图片索引
+				//console.log(x);
+				index=x;
+				goIndex();
+			})
+		}
+		
+	</script>
+	</body>
+</html>
